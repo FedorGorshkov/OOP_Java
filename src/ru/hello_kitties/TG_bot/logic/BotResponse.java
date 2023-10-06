@@ -1,17 +1,13 @@
 package ru.hello_kitties.TG_bot.logic;
 
-import ru.hello_kitties.TG_bot.AnswerWriter;
-
 public class BotResponse {
-    private String resp;
+    private final String response;
+
     public BotResponse(String message) {
-        this.resp = message;
+        this.response = message;
     }
 
-    public String getResponse(){
-        return resp;
-    }
-    public void changeResponse(String newMessage){
-        this.resp = newMessage;
+    public String getResponse() {
+        return response;
     }
 }

@@ -1,14 +1,13 @@
 package ru.hello_kitties.TG_bot.logic;
 
-import ru.hello_kitties.TG_bot.InputReader;
+public class BotRequest {
+    private final String message;
 
-public class BotRequest /*implements InputReader*/ {
-    private String req;
-
-    public String getRequest(){
-        return req;
+    public BotRequest(String req) {
+        this.message = req;
     }
-    public void changeRequest(String newMessage){
-        this.req = newMessage;
+
+    public String getRequest() {
+        return message;
     }
 }
