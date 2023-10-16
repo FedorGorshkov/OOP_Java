@@ -1,13 +1,13 @@
 package ru.hello_kitties.TG_bot.logic;
 
 public class BotResponse {
-    private final String response;
+    final private String response;
 
-    public BotResponse(String message) {
-        this.response = message;
+    public BotResponse(String message, String chatId) {
+        this.response = message+chatId;
     }
 
-    public String getResponse() {
+    public String getResponse(){
         return response;
     }
 }

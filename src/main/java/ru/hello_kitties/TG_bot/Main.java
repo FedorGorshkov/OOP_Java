@@ -1,10 +1,19 @@
 package ru.hello_kitties.TG_bot;
 
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import ru.hello_kitties.TG_bot.telegram.*;
 import ru.hello_kitties.TG_bot.logic.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Bot bot = new Bot("6407578780:AAElqAypxVAZ-ml-JP4u2KnNbXZlgFb5LsU", "Hello kitties bot");
+    public static void main(String args[])
+    {
+        try {
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(new Bot());
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
     }
 }
