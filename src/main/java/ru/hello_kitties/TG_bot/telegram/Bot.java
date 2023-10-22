@@ -24,9 +24,9 @@ public class Bot extends TelegramLongPollingBot implements AnswerWriter {
     public void onUpdateReceived(Update update) {
         try{
             if(update.hasMessage() && update.getMessage().hasText()) {
-                BotRequest request = new BotRequest(update.getMessage().getText(), "");
+                BotRequest request = new BotRequest(update.getMessage().getText(),update.getMessage().getChatId().toString());
                 Handler handle = new Handler();
-                handle.handle(request, this);
+                handle.handle(request,this);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
