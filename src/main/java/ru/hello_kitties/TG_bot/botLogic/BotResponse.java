@@ -1,4 +1,4 @@
-package ru.hello_kitties.TG_bot.logic;
+package ru.hello_kitties.TG_bot.botLogic;
 
 public class BotResponse {
     final private String response;

@@ -1,4 +1,4 @@
-package ru.hello_kitties.TG_bot.logic;
+package ru.hello_kitties.TG_bot.botLogic;
 
 import ru.hello_kitties.TG_bot.AnswerWriter;
 import ru.hello_kitties.TG_bot.MessageHandler;

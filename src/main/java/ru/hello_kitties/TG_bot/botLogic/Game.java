@@ -1,12 +1,51 @@
-package ru.hello_kitties.TG_bot.logic;
+package ru.hello_kitties.TG_bot.botLogic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 
 public class Game {
+
+    private String needDelete = "not need";
+    public void changeNeedDelete (String enterNeed){
+        this.needDelete = enterNeed;
+    }
+    public String getNeedDelete(){
+        return needDelete;
+    }
+    private String state = "/start";
+    // Индекс роли, которую мы вывели последней
+    public void changeState (String enterState){
+        this.state = enterState;
+    }
+    public String getState(){
+        return state;
+    }
+    private int current = 0;
+    // id последнего отправленного ботом сообщения (нужно для удаления во время выдачи ролей)
+    public void changeCurrent(int enterCurrent){
+        this.current = enterCurrent;
+    }
+    public int getCurrent(){
+        return current;
+    }
+    private int last_id = -1;
+    // Переключатель для if'а раздачи роли, определяет, нам сейчас нужно удалить или отправить сообщение
+    public void changeLastId(int enterid){
+        this.last_id = enterid;
+    }
+    public int getLastId(){
+        return last_id;
+    }
+    private boolean sent = false;
+    public void changeSent(boolean enterSent){
+        this.sent = enterSent;
+    }
+    public boolean getSent(){
+        return sent;
+    }
+
     private int numberOfPlayers;
     private int alreadyParsed = 0;
     private int numberOfSpies;
