@@ -1,24 +1,18 @@
 package ru.hello_kitties.TG_bot.gameLogic;
 
-import org.telegram.telegrambots.meta.api.objects.Update;
-import ru.hello_kitties.TG_bot.GameState;
-import ru.hello_kitties.TG_bot.botLogic.BotRequest;
 import ru.hello_kitties.TG_bot.botLogic.Game;
 
-public class WaitingAmountSpies implements GameState {
+public class WaitingAmountSpies implements GameStage {
     @Override
-    public void makeGame(Game game, BotRequest request, Update update) {
+    public String processMsg(Game game, String message) {
         // Проверка корректности введённого числа шпионов (не больше половины от игроков)
-        if (Integer.parseInt(update.getMessage().getText()) <= (game.getNumberOfPlayers()/2)){
-            game.setNumberOfSpies(Integer.parseInt(update.getMessage().getText()));
+        if (Integer.parseInt(message) <= (game.getNumberOfPlayers()/2)){
+            game.setNumberOfSpies(Integer.parseInt(message));
             // TODO: сюда нужно написать сообщение, описывающее метод выбора пакетов с локациями
-            request.setRequest("Здесь будет выбор пакета локаций, но пока тут ничего нет");
-            request.setChatId(update.getMessage().getChatId().toString());
-            game.changeState("choosing place");
+            game.setState("choosing place");
+            return "Здесь будет выбор пакета локаций, но пока тут ничего нет";
         }
-        else {
-            request.setRequest("Шпионов должно быть не больше половины игроков!");
-            request.setChatId(update.getMessage().getChatId().toString());
-        }
+        else
+            return "Шпионов должно быть не больше половины игроков!";
     }
 }

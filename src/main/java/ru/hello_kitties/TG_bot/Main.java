@@ -17,7 +17,6 @@ public class Main {
         try {
             Properties properties = new Properties();
             properties.load(new FileInputStream("src/main/resources/bot.properties"));
-
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(new Bot(properties.getProperty("Name"), properties.getProperty("Token")));
         } catch (TelegramApiException e) {

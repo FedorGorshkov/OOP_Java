@@ -6,40 +6,36 @@ import java.util.Random;
 
 
 public class Game {
-
-    private String needDelete = "not need";
-    public void changeNeedDelete (String enterNeed){
-        this.needDelete = enterNeed;
-    }
-    public String getNeedDelete(){
-        return needDelete;
-    }
     private String state = "/start";
-    // Индекс роли, которую мы вывели последней
-    public void changeState (String enterState){
+    public void setState (String enterState){
         this.state = enterState;
     }
     public String getState(){
         return state;
     }
     private int current = 0;
-    // id последнего отправленного ботом сообщения (нужно для удаления во время выдачи ролей)
-    public void changeCurrent(int enterCurrent){
+    public void setCurrent(int enterCurrent){
         this.current = enterCurrent;
     }
     public int getCurrent(){
         return current;
     }
-    private int last_id = -1;
-    // Переключатель для if'а раздачи роли, определяет, нам сейчас нужно удалить или отправить сообщение
-    public void changeLastId(int enterid){
-        this.last_id = enterid;
+    private int userLastId = -1;
+    public void setUserLastId(int id) {
+        this.userLastId = id;
     }
-    public int getLastId(){
-        return last_id;
+    public int getUserLastId(){
+        return userLastId;
+    }
+    private int ourLastId = -1;
+    public void setOurLastId(int id){
+        this.ourLastId = id;
+    }
+    public int getOurLastId(){
+        return ourLastId;
     }
     private boolean sent = false;
-    public void changeSent(boolean enterSent){
+    public void setSent(boolean enterSent){
         this.sent = enterSent;
     }
     public boolean getSent(){
@@ -54,7 +50,6 @@ public class Game {
     List <String> roles = new ArrayList<>();
     private String location;
 
-    // Геттеры и сеттеры - худшее и безполезнейшее, что есть в программировании ©Федя.
     public void setLocation(String loc) {
         this.location = loc;
     }
