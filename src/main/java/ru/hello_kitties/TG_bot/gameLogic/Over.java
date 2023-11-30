@@ -6,6 +6,6 @@ public class Over implements GameStage {
     @Override
     public String processMsg(Game game, String message) {
         game.setState("/start");
-        return "Спасибо за игру! Если хотите сыграть ещё раз, введите /start";
+        return "<i>Спасибо за игру! Если хотите сыграть ещё раз, введите /start</i>";
     }
 }

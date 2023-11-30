@@ -3,6 +3,8 @@ package ru.hello_kitties.TG_bot.botLogic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.io.*;
+import java.util.Scanner;
 
 
 public class Game {
@@ -34,6 +36,13 @@ public class Game {
     public int getOurLastId(){
         return ourLastId;
     }
+    private boolean startTimer = false;
+    public void setStartTimer(boolean enterStart){
+        this.startTimer = enterStart;
+    }
+    public boolean getStartTimer(){
+        return startTimer;
+    }
     private boolean sent = false;
     public void setSent(boolean enterSent){
         this.sent = enterSent;
@@ -41,44 +50,50 @@ public class Game {
     public boolean getSent(){
         return sent;
     }
-
     private int numberOfPlayers;
+    public void setNumberOfPlayers(int num) {
+        this.numberOfPlayers = num;
+    }
+    public int getNumberOfPlayers() {
+        return this.numberOfPlayers;
+    }
     private int alreadyParsed = 0;
+    public int getAlreadyParsed(){
+        return this.alreadyParsed;
+    }
     private int numberOfSpies;
+    public void setNumberOfSpies(int num) {
+        this.numberOfSpies = num;
+    }
     List <String> listOfNames = new ArrayList<>();
-    List <String> listOfSpy = new ArrayList<>();
-    List <String> roles = new ArrayList<>();
-    private String location;
+    public List <String> getListOfNames(){
+        return this.listOfNames;
+    }
+    String listOfSpy = "";
+    public String getListOfSpy(){
+        return this.listOfSpy;
+    }
+    public void setListOfSpy(String spy){this.listOfSpy = this.listOfSpy + spy + " ";}
 
+    List <String> roles = new ArrayList<>();
+    public List<String> getRoles(){
+        return this.roles;
+    }
+    private String location;
     public void setLocation(String loc) {
         this.location = loc;
     }
     public String getLocation() {
         return location;
     }
-    public void setNumberOfPlayers(int num) {
-        this.numberOfPlayers = num;
+    private String time = "null";
+    public void setTime(String tm) {
+        this.time= tm;
+    }
+    public String getTime() {
+        return this.time;
     }
 
-    public int getNumberOfPlayers() {
-        return this.numberOfPlayers;
-    }
-
-    public List <String> getListOfNames(){
-        return this.listOfNames;
-    }
-
-    public List<String> getRoles(){
-        return this.roles;
-    }
-
-    public void setNumberOfSpies(int num) {
-        this.numberOfSpies = num;
-    }
-
-    public int getAlreadyParsed(){
-        return this.alreadyParsed;
-    }
 
     // Забавная функция (не метод) ради красивого вывода, определяет форму слова "имя" с числительным, чтобы не нарушать правила русского языка
     private String getFormOfName(int amount){
@@ -86,6 +101,14 @@ public class Game {
         if (amount > 1 && amount < 5) return "имени";
         return "имён";
     }
+    public String getFormOfSpy (){
+        if (numberOfSpies == 1) {
+            return "шпион";
+        }else {
+            return "шпионы";
+        }
+    }
+
     // Метод, принимающий одно или несколько имён, записывающий их в поле класса и возвращающий ответ для пользователя
     // (удобнее было сделать составление ответа здесь)
     public String parseNames(String string) {
@@ -134,5 +157,85 @@ public class Game {
         for(int i = 0; i < numberOfPlayers; i++) {
             roles.add(spies.contains(i) ? "шпион":"мирный");
         }
+    }
+
+    public void choosingLocation(){
+        if(location.equals("всё")) {
+            List<String> locations = new ArrayList<>(List.of("искусство","базовый","дети","хардкор","путешествие","досуг","спорт"));
+            Random random = new Random();
+            location = locations.get(random.nextInt(locations.size()));
+        }
+        List<String> allLocations = new ArrayList<>();
+        Random random = new Random();
+        if(location.equals("искусство")) {
+            try (Scanner scanner = new Scanner(new File("src/main/locations/art"))) {
+                while (scanner.hasNextLine()){
+                    allLocations.add(scanner.nextLine());
+                }
+                location = allLocations.get(random.nextInt(allLocations.size()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else if(location.equals("базовый")) {
+            try (Scanner scanner = new Scanner(new File("src/main/locations/basic"))) {
+                while (scanner.hasNextLine()){
+                    allLocations.add(scanner.nextLine());
+                }
+                location = allLocations.get(random.nextInt(allLocations.size()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else if(location.equals("дети")) {
+            try (Scanner scanner = new Scanner(new File("src/main/locations/children"))) {
+                while (scanner.hasNextLine()){
+                    allLocations.add(scanner.nextLine());
+                }
+                location = allLocations.get(random.nextInt(allLocations.size()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else if(location.equals("хардкор")) {
+            try (Scanner scanner = new Scanner(new File("src/main/locations/craziness"))) {
+                while (scanner.hasNextLine()){
+                    allLocations.add(scanner.nextLine());
+                }
+                location = allLocations.get(random.nextInt(allLocations.size()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else if(location.equals("путешествие")) {
+            try (Scanner scanner = new Scanner(new File("src/main/locations/journey"))) {
+                while (scanner.hasNextLine()){
+                    allLocations.add(scanner.nextLine());
+                }
+                location = allLocations.get(random.nextInt(allLocations.size()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else if(location.equals("досуг")) {
+            try (Scanner scanner = new Scanner(new File("src/main/locations/leisure"))) {
+                while (scanner.hasNextLine()){
+                    allLocations.add(scanner.nextLine());
+                }
+                location = allLocations.get(random.nextInt(allLocations.size()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else if(location.equals("спорт")) {
+            try (Scanner scanner = new Scanner(new File("src/main/locations/sport"))) {
+                while (scanner.hasNextLine()){
+                    allLocations.add(scanner.nextLine());
+                }
+                location = allLocations.get(random.nextInt(allLocations.size()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            location = "error";
+        }
+    }
+    public void Timer(){
+        int intTime = Integer.parseInt(this.time)-1;
+        this.time = String.format("%d",intTime);
     }
 }

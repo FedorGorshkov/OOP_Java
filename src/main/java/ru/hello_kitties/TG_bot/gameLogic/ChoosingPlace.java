@@ -7,10 +7,14 @@ public class ChoosingPlace implements GameStage {
     public String processMsg(Game game, String message) {
         // Заранее генерируем роли, т. к. следующий if будет выполняться несколько раз
         game.generateRoles();
-        // TODO: Здесь нужно в соответствии с прошлым if'ом выбрать локацию
-        game.setLocation("какое-то осмысленное место");
-        // Предупреждаем пользователя, что сейчас будут выводится роли
-        game.setState("giving roles");
-        return (String.format("Сейчас будут выводится роли игроков в том порядке, в каком вы вводили имена. " + "Передайте телефон первому игроку (%s) и введите любое сообщение, чтобы начать", game.getListOfNames().get(0)));
+        game.setLocation(message);
+        game.choosingLocation();
+        if (game.getLocation() != "error" ){
+            // Предупреждаем пользователя, что сейчас будут выводится роли
+            game.setState("giving roles");
+            return (String.format("Сейчас будут выводится роли игроков в том порядке, в каком вы вводили имена. " + "Передайте телефон первому игроку (%s) и введите любое сообщение, чтобы начать", game.getListOfNames().get(0)));
+        }else{
+            return (String.format("К сожалению такого пакета с локациями у нас нет, выберите из предложенных выше"));
+        }
     }
 }

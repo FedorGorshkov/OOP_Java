@@ -8,9 +8,8 @@ public class WaitingAmountSpies implements GameStage {
         // Проверка корректности введённого числа шпионов (не больше половины от игроков)
         if (Integer.parseInt(message) <= (game.getNumberOfPlayers()/2)){
             game.setNumberOfSpies(Integer.parseInt(message));
-            // TODO: сюда нужно написать сообщение, описывающее метод выбора пакетов с локациями
             game.setState("choosing place");
-            return "Здесь будет выбор пакета локаций, но пока тут ничего нет";
+            return "Сейчас нужно выбрать пакет с локациями:) Выберите из предложенных: базовый/исскуство/путешествие/дети/досуг/спорт/хардкор/всё";
         }
         else
             return "Шпионов должно быть не больше половины игроков!";

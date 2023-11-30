@@ -9,11 +9,13 @@ public class SendRole implements GameStage {
     public String processMsg(Game game, String message) {
         // Будущий вывод пользователю в соответствии с ролью
         String text;
+        //String location = game.getLocation();
         // Получаем и обрабатываем роль текущего игрока (под индексом current)
         if (game.getRoles().get(game.getCurrent()).equals("мирный")) {
-            text = String.format("%s, ты - мирный житель. Локация - %s\nНапиши любое сообщение", game.getListOfNames().get(game.getCurrent()), game.getLocation());
+            text = String.format("%s, ты - <b>мирный житель</b>, локация - <b>%s</b>\nНапиши любое сообщение", game.getListOfNames().get(game.getCurrent()), game.getLocation());
         } else {
-            text = String.format("%s, ты - шпион!\nНапиши любое сообщение ", game.getListOfNames().get(game.getCurrent()));
+            game.setListOfSpy(game.getListOfNames().get(game.getCurrent()));
+            text = String.format("%s, ты - <b>шпион!</b>\nНапиши любое сообщение ", game.getListOfNames().get(game.getCurrent()));
         }
         // Если это был не последний игрок, просим передать телефон следующему
         if (game.getCurrent()!= game.getNumberOfPlayers() - 1) {

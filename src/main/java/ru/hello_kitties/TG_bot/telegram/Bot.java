@@ -1,6 +1,8 @@
 package ru.hello_kitties.TG_bot.telegram;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -48,7 +50,11 @@ public class Bot extends TelegramLongPollingBot implements AnswerWriter {
     @Override
     public int writeAnswer(BotResponse response) {
         try {
-            Message msg = execute(new SendMessage(response.getChatId(), response.getResponse()));
+            SendMessage sendMessage = new SendMessage();
+            sendMessage.setChatId(response.getChatId());
+            sendMessage.setText(response.getResponse());
+            sendMessage.setParseMode(ParseMode.HTML);
+            Message msg = execute(sendMessage);
             return msg.getMessageId();
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
@@ -61,6 +67,18 @@ public class Bot extends TelegramLongPollingBot implements AnswerWriter {
                 execute(new DeleteMessage(chatId, lastId));
         } catch (TelegramApiException e) {
             throw new RuntimeException(e);
+        }
+    }
+    public void editMessage(int ourId, String message, String chatId){
+        EditMessageText editMessageText = new EditMessageText();
+        editMessageText.setChatId(chatId);
+        editMessageText.setMessageId(ourId);
+        editMessageText.setText(message);
+        editMessageText.setParseMode(ParseMode.HTML);
+        try {
+            execute(editMessageText);
+        }catch (TelegramApiException e){
+            e.printStackTrace();
         }
     }
 }

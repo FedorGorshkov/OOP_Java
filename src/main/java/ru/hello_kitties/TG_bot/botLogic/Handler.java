@@ -3,6 +3,12 @@ package ru.hello_kitties.TG_bot.botLogic;
 import ru.hello_kitties.TG_bot.MessageHandler;
 import ru.hello_kitties.TG_bot.gameLogic.*;
 import ru.hello_kitties.TG_bot.telegram.Bot;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
+
 
 public class Handler implements MessageHandler {
     public void handle(Bot bot, Game game, String message, String chatId) {
@@ -35,11 +41,24 @@ public class Handler implements MessageHandler {
                     bot.deleteMessage(chatId, game.getUserLastId());
                     response = new BotResponse(new DeleteRole().processMsg(game, message), chatId);
                 }
-
             }
             // Во время самой игры
-            else if(game.getState().equals("running"))
-                response = new BotResponse(new Running().processMsg(game, message), chatId);
+            else if(game.getState().equals("running")) {
+                //проверка на корректность времени
+                if(game.getTime().equals("null")){
+                    response = new BotResponse(new Running().processMsg(game, message), chatId);
+                }else{
+                    //запуск таймера, пока без досрочного выхода
+                    int count = Integer.parseInt(game.getTime());
+                    game.setStartTimer(true);
+                    bot.deleteMessage(chatId, game.getUserLastId());
+                    while(count>0){
+                        bot.editMessage(game.getOurLastId(), new Running().processMsg(game, message), chatId);
+                        TimeUnit.MINUTES.sleep(1);
+                        count--;
+                    }
+                }
+            }
             // Тут уже всё готово, прощальное сообщение
             else if(game.getState().equals("over"))
                 response = new BotResponse(new Over().processMsg(game, message), chatId);
