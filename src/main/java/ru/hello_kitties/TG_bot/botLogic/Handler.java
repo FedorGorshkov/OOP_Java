@@ -7,10 +7,14 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 
 public class Handler implements MessageHandler {
+    private final Timer timer = new Timer();
+
     public void handle(Bot bot, Game game, String message, String chatId) {
         BotResponse response = null;
         try {
@@ -52,11 +56,20 @@ public class Handler implements MessageHandler {
                     int count = Integer.parseInt(game.getTime());
                     game.setStartTimer(true);
                     bot.deleteMessage(chatId, game.getUserLastId());
-                    while(count>0){
-                        bot.editMessage(game.getOurLastId(), new Running().processMsg(game, message), chatId);
-                        TimeUnit.MINUTES.sleep(1);
-                        count--;
-                    }
+                    timer.schedule(new TimerTask() {
+                        private int innerCounter = count;
+                        @Override
+                        public void run() {
+                            if (innerCounter > 0) {
+                                bot.editMessage(game.getOurLastId(), new Running().processMsg(game, message), chatId);
+                                innerCounter--;
+                            }
+                            else {
+                                cancel();
+                            }
+                        }
+                        //здесь секунды, для тестов
+                    }, 0, 1000);
                 }
             }
             // Тут уже всё готово, прощальное сообщение

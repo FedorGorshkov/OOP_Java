@@ -19,11 +19,7 @@ public class Main {
             properties.load(new FileInputStream("src/main/resources/bot.properties"));
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
             telegramBotsApi.registerBot(new Bot(properties.getProperty("Name"), properties.getProperty("Token")));
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (TelegramApiException | IOException e) {
             throw new RuntimeException(e);
         }
     }
