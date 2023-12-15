@@ -58,6 +58,7 @@ public class Game {
         return this.numberOfPlayers;
     }
     private int alreadyParsed = 0;
+    public void setAlreadyParsed(int num){this.alreadyParsed = num;}
     public int getAlreadyParsed(){
         return this.alreadyParsed;
     }
@@ -69,16 +70,18 @@ public class Game {
     public List <String> getListOfNames(){
         return this.listOfNames;
     }
+    public void setNullListOfNames(){this.listOfNames.clear();}
     String listOfSpy = "";
     public String getListOfSpy(){
         return this.listOfSpy;
     }
     public void setListOfSpy(String spy){this.listOfSpy = this.listOfSpy + spy + " ";}
-
+    public void setNullListOfSpy(String newNullList){this.listOfSpy =newNullList; }
     List <String> roles = new ArrayList<>();
     public List<String> getRoles(){
         return this.roles;
     }
+    public void setNullListOfRoles(){this.roles.clear(); }
     private String location;
     public void setLocation(String loc) {
         this.location = loc;

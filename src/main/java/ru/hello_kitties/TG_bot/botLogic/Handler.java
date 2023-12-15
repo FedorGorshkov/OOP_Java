@@ -3,17 +3,10 @@ package ru.hello_kitties.TG_bot.botLogic;
 import ru.hello_kitties.TG_bot.MessageHandler;
 import ru.hello_kitties.TG_bot.gameLogic.*;
 import ru.hello_kitties.TG_bot.telegram.Bot;
-import java.time.*;
-import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
-
 
 public class Handler implements MessageHandler {
-    private final Timer timer = new Timer();
 
     public void handle(Bot bot, Game game, String message, String chatId) {
         BotResponse response = null;
@@ -53,6 +46,7 @@ public class Handler implements MessageHandler {
                     response = new BotResponse(new Running().processMsg(game, message), chatId);
                 }else{
                     //запуск таймера, пока без досрочного выхода
+                    final Timer timer = new Timer();
                     int count = Integer.parseInt(game.getTime());
                     game.setStartTimer(true);
                     bot.deleteMessage(chatId, game.getUserLastId());
